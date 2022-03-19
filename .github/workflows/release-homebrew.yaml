@@ -10,19 +10,13 @@ jobs:
 
     steps:
 
-    - id: version
-      name: Compute version number
-      run: |
-        echo "::set-output name=result::$(grep '^version' Cargo.toml | tr -cd '0-9.')"
-
     - name: Update scalar Cask
       uses: mjcheetham/update-homebrew@v1.1
       with:
-        name: gaborcsardi/rim
-        releaseTag: v0.2.0
-        releaseAsset: /^rim-(?<version>.*)-macOS-.*[.]pkg$/
         token: ${{ secrets.HOMEBREW_TOKEN }}
         tap: gaborcsardi/rim
+        name: gaborcsardi/rim
         type: cask
-        version: ${{ steps.version.outputs.result }}
+        releaseTag: v0.2.0
+        releaseAsset: rim-(.*)-macOS-.*[.]pkg
         alwaysUsePullRequest: true
